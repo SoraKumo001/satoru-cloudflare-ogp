@@ -45,7 +45,6 @@ const fetch = async (
               overflow: "hidden",
             }}
           >
-            {/* 背景の装飾的要素 */}
             <div
               style={{
                 position: "absolute",
@@ -73,7 +72,6 @@ const fetch = async (
               }}
             />
 
-            {/* メインコンテナ */}
             <div
               style={{
                 display: "flex",
@@ -86,7 +84,6 @@ const fetch = async (
                 zIndex: 10,
               }}
             >
-              {/* 左側: テキストコンテンツ */}
               <div
                 style={{
                   display: "flex",
@@ -151,7 +148,6 @@ const fetch = async (
                 </div>
               </div>
 
-              {/* 右側: 画像カード */}
               <div
                 style={{
                   display: "flex",
@@ -196,7 +192,6 @@ const fetch = async (
               </div>
             </div>
 
-            {/* フッター */}
             <div
               style={{
                 position: "absolute",
