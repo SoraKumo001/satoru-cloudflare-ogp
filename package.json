@@ -1,0 +1,28 @@
+{
+  "name": "satoru-cloudflare-ogp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy-test": "wrangler deploy --dry-run",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "satoru-render": "0.0.10"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260305.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.70.0"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/SoraKumo001/satoru-cloudflare-ogp",
+  "author": "SoraKumo <info@croud.jp>",
+  "license": "MIT"
+}
