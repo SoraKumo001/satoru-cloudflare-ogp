@@ -6,6 +6,10 @@ This package demonstrates how to use Satoru to generate dynamic social media ima
 
 ---
 
+## Sample Image
+
+![](./document/image.png)
+
 ## 🚀 Features
 
 - **Edge-Side Rendering**: Generates PNG images directly on Cloudflare Workers using WebAssembly.
@@ -54,11 +58,11 @@ pnpm deploy
 
 Generates an OGP image based on the provided query parameters.
 
-| Parameter  | Type     | Default                                 | Description                      |
-| :--------- | :------- | :-------------------------------------- | :------------------------------- |
-| `title`    | `string` | `"Title"`                               | The main title text.             |
-| `subtitle` | `string` | `"subtitle"`                            | The subtitle text.               |
-| `image`    | `string` | (A sample landscape image)              | URL for the decorative image.    |
+| Parameter  | Type     | Default                    | Description                   |
+| :--------- | :------- | :------------------------- | :---------------------------- |
+| `title`    | `string` | `"Title"`                  | The main title text.          |
+| `subtitle` | `string` | `"subtitle"`               | The subtitle text.            |
+| `image`    | `string` | (A sample landscape image) | URL for the decorative image. |
 
 **Example Request:**
 `https://your-worker.workers.dev/?title=My+Awesome+Post&subtitle=Read+more+on+my+blog&image=https://example.com/image.jpg`
@@ -81,15 +85,27 @@ The generator uses a combination of **React**, and **Satoru**:
 const html = toHtml(
   <html style={{ margin: 0, padding: 0 }}>
     <head>
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap"
+        rel="stylesheet"
+      />
     </head>
     <body style={{ margin: 0, padding: 0 }}>
-      <div style={{ width: "1200px", height: "630px", background: "#0a0a0c", display: "flex" }}>
+      <div
+        style={{
+          width: "1200px",
+          height: "630px",
+          background: "#0a0a0c",
+          display: "flex",
+        }}
+      >
         {/* Your OGP Design */}
-        <div style={{ fontSize: "80px", color: "#ffffff", display: "flex" }}>{title}</div>
+        <div style={{ fontSize: "80px", color: "#ffffff", display: "flex" }}>
+          {title}
+        </div>
       </div>
     </body>
-  </html>
+  </html>,
 );
 
 const png = await render({
