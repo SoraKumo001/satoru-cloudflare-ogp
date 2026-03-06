@@ -1,5 +1,7 @@
-import { toHtml } from "satoru-render/react";
+/** @jsx h */
+import { h, toHtml } from "satoru-render/preact";
 import { render } from "satoru-render";
+import { createCSS } from "satoru-render/tailwind";
 
 const fetch = async (
   request: Request,
@@ -17,214 +19,68 @@ const fetch = async (
     "https://raw.githubusercontent.com/SoraKumo001/cloudflare-ogp/refs/heads/master/sample/image.jpg";
   const cache = await caches.open("satoru-cloudflare-ogp");
   const cacheKey = new Request(url.toString());
-  // const cachedResponse = await cache.match(cacheKey);
-  // if (cachedResponse) {
-  //   return cachedResponse;
-  // }
+  const cachedResponse = await cache.match(cacheKey);
+  if (cachedResponse) {
+    return cachedResponse;
+  }
 
   // Define OGP layout using JSX
   // We include @font-face in a style tag inside the HTML
-  const html = `
+  const html = toHtml(
+    <html className="m-0 p-0">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="m-0 p-0">
+        <div className="w-[1200px] h-[630px] flex relative bg-[#0a0a0c] overflow-hidden">
+          <div className="absolute top-[-150px] right-[-150px] w-[600px] h-[600px] rounded-[300px] bg-[radial-gradient(circle,_rgba(79,70,229,0.3)_0%,_rgba(79,70,229,0)_70%)] flex" />
+          <div className="absolute bottom-[-100px] left-[-50px] w-[400px] h-[400px] rounded-[200px] bg-[radial-gradient(circle,_rgba(168,85,247,0.2)_0%,_rgba(168,85,247,0)_70%)] flex" />
 
-    ${toHtml(
-      <html style={{ margin: 0, padding: 0 }}>
-        <head>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap"
-            rel="stylesheet"
-          />
-        </head>
-        <body style={{ margin: 0, padding: 0 }}>
-          <div
-            style={{
-              width: "1200px",
-              height: "630px",
-              display: "flex",
-              position: "relative",
-              background: "#0a0a0c",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: "-150px",
-                right: "-150px",
-                width: "600px",
-                height: "600px",
-                borderRadius: "300px",
-                background:
-                  "radial-gradient(circle, rgba(79, 70, 229, 0.3) 0%, rgba(79, 70, 229, 0) 70%)",
-                display: "flex",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                bottom: "-100px",
-                left: "-50px",
-                width: "400px",
-                height: "400px",
-                borderRadius: "200px",
-                background:
-                  "radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0) 70%)",
-                display: "flex",
-              }}
-            />
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                height: "100%",
-                padding: "60px",
-                alignItems: "center",
-                justifyContent: "space-between",
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "60%",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "4px",
-                      background: "#6366f1",
-                      marginRight: "15px",
-                      borderRadius: "2px",
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: 700,
-                      color: "#818cf8",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      display: "flex",
-                    }}
-                  >
-                    Featured Content
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    fontSize: "80px",
-                    fontWeight: 900,
-                    color: "#ffffff",
-                    lineHeight: 1.1,
-                    marginBottom: "30px",
-                    wordBreak: "break-word",
-                    display: "flex",
-                  }}
-                >
-                  {title}
-                </div>
-
-                <div
-                  style={{
-                    fontSize: "32px",
-                    fontWeight: 400,
-                    color: "#94a3b8",
-                    lineHeight: 1.4,
-                    display: "flex",
-                  }}
-                >
-                  {subtitle}
+          <div className="flex flex-row w-full h-full p-[60px] items-center justify-between z-10">
+            <div className="flex flex-col w-[60%]">
+              <div className="flex items-center mb-5">
+                <div className="w-10 h-1 bg-[#6366f1] mr-[15px] rounded-sm" />
+                <div className="text-2xl font-bold color-[#818cf8] tracking-widest uppercase flex">
+                  Featured Content
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  width: "35%",
-                  position: "relative",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "420px",
-                    height: "420px",
-                    borderRadius: "40px",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    background: "rgba(255, 255, 255, 0.03)",
-                    transform: "rotate(-3deg)",
-                    display: "flex",
-                  }}
-                />
-                <div
-                  style={{
-                    width: "400px",
-                    height: "400px",
-                    borderRadius: "32px",
-                    overflow: "hidden",
-                    border: "4px solid rgba(255, 255, 255, 0.1)",
-                    display: "flex",
-                  }}
-                >
-                  <img
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                    src={image}
-                    alt=""
-                  />
-                </div>
+              <div className="text-[80px] font-black text-white leading-[1.1] mb-[30px] break-words flex">
+                {title}
+              </div>
+
+              <div className="text-[32px] font-normal text-[#94a3b8] leading-[1.4] flex">
+                {subtitle}
               </div>
             </div>
 
-            <div
-              style={{
-                position: "absolute",
-                bottom: "40px",
-                left: "60px",
-                display: "flex",
-                alignItems: "center",
-                zIndex: 20,
-              }}
-            >
-              <div
-                style={{
-                  padding: "8px 16px",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  borderRadius: "10px",
-                  fontSize: "18px",
-                  color: "#e2e8f0",
-                  fontWeight: 500,
-                  display: "flex",
-                }}
-              >
-                satoru-cloudflare-ogp
+            <div className="flex w-[35%] relative justify-center items-center">
+              <div className="absolute w-[420px] h-[420px] rounded-[40px] border border-white/10 bg-white/3 rotate-[-3deg] flex" />
+              <div className="w-[400px] h-[400px] rounded-[32px] overflow-hidden border-4 border-white/10 flex">
+                <img
+                  className="w-full h-full object-cover"
+                  src={image}
+                  alt=""
+                />
               </div>
             </div>
           </div>
-        </body>
-      </html>,
-    )}
-  `;
+          <div className="absolute bottom-10 left-[60px] flex items-center z-20">
+            <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-[10px] text-lg text-[#e2e8f0] font-medium flex">
+              satoru-cloudflare-ogp
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>,
+  );
   // Render to PNG with automatic font resolution
   const png = await render({
     value: html,
+    css: await createCSS(html),
     width: 1200,
     height: 630,
     format: "png",

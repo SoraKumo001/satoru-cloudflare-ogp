@@ -13,11 +13,88 @@ This package demonstrates how to use Satoru to generate dynamic social media ima
 ## 🚀 Features
 
 - **Edge-Side Rendering**: Generates PNG images directly on Cloudflare Workers using WebAssembly.
-- **React Integration**: Define your OGP layouts using familiar JSX syntax via `satoru-render/react`.
+- **React Integration**: Define your OGP layouts using familiar JSX syntax via `satoru-render/react` or `satoru-render/preact`.
+- **Tailwind CSS Support**: Generate styles dynamically from class names using `satoru-render/tailwind`.
 - **Automatic Font Loading**: Uses Google Fonts (Noto Sans JP) with automatic resolution.
 - **Modern UI**: Dark-themed layout with decorative elements and image support.
 - **High Performance**: Optimized Wasm binary for fast cold starts and execution.
 - **Dynamic Content**: Accepts query parameters to customize titles, subtitles, and images.
+
+---
+
+## 🛠 Configuration for JSX & Tailwind
+
+### 1. Dependencies
+
+Ensure you have the following dependencies installed for JSX (via Preact) and Tailwind (via UnoCSS) support:
+
+```bash
+pnpm add preact preact-render-to-string @unocss/preset-wind4 satoru-render
+```
+
+### 2. TypeScript Configuration (`tsconfig.json`)
+
+To use JSX in your worker, configure `tsconfig.json` to handle JSX. If you are using Preact, the following settings are recommended:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "types": ["@cloudflare/workers-types", "preact/jsx-runtime"]
+  }
+}
+```
+
+_Note: In this project, `jsx: preserve` is used to let the bundler handle the transformation. When using this setting, you should include `/\*\* @jsx h _/`at the top of your`.tsx` files if not otherwise configured in your bundler.\*
+
+### 3. Usage in Code (JSX & Tailwind)
+
+Depending on your preference, you can use either React or Preact.
+
+#### Using Preact (Recommended for Workers)
+
+```tsx
+/** @jsx h */
+import { h, toHtml } from "satoru-render/preact";
+import { createCSS } from "satoru-render/tailwind";
+import { render } from "satoru-render";
+
+// 1. Define your layout with Tailwind classes
+const html = toHtml(
+  <div className="w-[1200px] h-[630px] flex items-center justify-center bg-slate-900">
+    <h1 className="text-6xl text-white font-bold">Hello World</h1>
+  </div>,
+);
+
+// 2. Generate CSS from the HTML
+const css = await createCSS(html);
+
+// 3. Render to PNG
+const png = await render({
+  value: html,
+  css: css,
+  width: 1200,
+  height: 630,
+  format: "png",
+});
+```
+
+#### Using React
+
+```tsx
+import { toHtml } from "satoru-render/react";
+import { createCSS } from "satoru-render/tailwind";
+import { render } from "satoru-render";
+
+const html = toHtml(
+  <div className="flex bg-blue-500">
+    <h1>React OGP</h1>
+  </div>,
+);
+const css = await createCSS(html);
+// ... render as usual
+```
 
 ---
 
@@ -75,7 +152,7 @@ The generator uses a combination of **React**, and **Satoru**:
 
 1.  **Request Handling**: Parses query parameters from the URL.
 2.  **React (JSX)**: Defines the visual layout and styles using standard React components.
-3.  **satoru-render/react**: Converts the JSX elements into an HTML string, including Google Fonts integration.
+3.  **satoru-render/preact** (or `/react`): Converts the JSX elements into an HTML string, including Google Fonts integration.
 4.  **Satoru**: Renders the HTML string into a PNG buffer using the Skia graphics engine compiled to Wasm.
 5.  **Caching**: Utilizes Cloudflare Workers KV/Cache API for performance.
 6.  **Response**: Returns the PNG buffer with `Content-Type: image/png` and cache headers.
