@@ -19,7 +19,11 @@ const fetch = async (
     "https://raw.githubusercontent.com/SoraKumo001/cloudflare-ogp/refs/heads/master/sample/image.jpg";
   const cache = await caches.open("satoru-cloudflare-ogp");
   const cacheKey = new Request(url.toString());
-  const cachedResponse = await cache.match(cacheKey);
+  const isDev =
+    url.hostname === "localhost" ||
+    url.hostname === "127.0.0.1" ||
+    url.searchParams.has("nocache");
+  const cachedResponse = isDev ? null : await cache.match(cacheKey);
   if (cachedResponse) {
     return cachedResponse;
   }
@@ -88,15 +92,21 @@ const fetch = async (
   const response = new Response(png as BodyInit, {
     headers: {
       "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=31536000, immutable",
+      "Cache-Control": isDev
+        ? "no-cache, no-store, must-revalidate"
+        : "public, max-age=31536000, immutable",
       date: new Date().toUTCString(),
     },
-    cf: {
-      cacheEverything: true,
-      cacheTtl: 31536000,
-    },
+    cf: isDev
+      ? { cacheEverything: false, cacheTtl: 0 }
+      : {
+          cacheEverything: true,
+          cacheTtl: 31536000,
+        },
   });
-  ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  if (!isDev) {
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+  }
   return response;
 };
 
