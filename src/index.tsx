@@ -117,7 +117,7 @@ const fetch = async (
       </body>
     </html>,
   );
-  console.log(html, await createCSS(html));
+
   // Render to PNG with automatic font resolution
   const png = await render({
     value: html,
