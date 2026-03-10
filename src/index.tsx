@@ -1,4 +1,5 @@
 /** @jsx h */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { h, toHtml } from "satoru-render/preact";
 import { render } from "satoru-render";
 import { createCSS } from "satoru-render/tailwind";
@@ -38,42 +39,77 @@ const fetch = async (
           rel="stylesheet"
         />
       </head>
-      <body className="m-0 p-0">
-        <div className="w-[1200px] h-[630px] flex relative bg-[#0a0a0c] overflow-hidden">
-          <div className="absolute top-[-150px] right-[-150px] w-[600px] h-[600px] rounded-[300px] bg-[radial-gradient(circle,_rgba(79,70,229,0.3)_0%,_rgba(79,70,229,0)_70%)] flex" />
-          <div className="absolute bottom-[-100px] left-[-50px] w-[400px] h-[400px] rounded-[200px] bg-[radial-gradient(circle,_rgba(168,85,247,0.2)_0%,_rgba(168,85,247,0)_70%)] flex" />
+      <body className="m-0 p-0 font-sans">
+        <style>
+          {`
+          body {
+            font-family: 'Noto Sans JP', 'emoji';
+          }
+          `}
+        </style>
+        <div className="relative flex h-157.5 w-300 overflow-hidden bg-[#0f172a]">
+          {/* Background Decorative Elements with Glow */}
+          <div className="absolute -left-25 -top-25 flex size-150 rounded-full bg-indigo-600/20 blur-[100px]" />
+          <div className="absolute -bottom-37.5 right-25 flex size-175 rounded-full bg-purple-600/15 blur-[120px]" />
 
-          <div className="flex flex-row w-full h-full p-[60px] items-center justify-between z-10">
-            <div className="flex flex-col w-[60%]">
-              <div className="flex items-center mb-5">
-                <div className="w-10 h-1 bg-[#6366f1] mr-[15px] rounded-sm" />
-                <div className="text-2xl font-bold color-[#818cf8] tracking-widest uppercase flex">
-                  Featured Content
+          {/* Main Content Area */}
+          <div className="z-10 flex size-full flex-row items-center justify-between p-15">
+            {/* Left Content Card with Backdrop Filter (Glassmorphism) */}
+            <div className="flex w-[62%] flex-col rounded-[48px] border border-white/10 bg-white/5 p-12 shadow-2xl backdrop-blur-2xl">
+              <div className="mb-8 flex items-center">
+                <div className="mr-5 h-1.5 w-16 rounded-full bg-linear-to-r from-indigo-500 to-purple-500 shadow-[0_0_20px_rgba(99,102,241,0.6)]" />
+                <div className="flex text-xl font-bold uppercase tracking-[0.25em] text-indigo-300 drop-shadow-md">
+                  Insight & Technology
                 </div>
               </div>
 
-              <div className="text-[80px] font-black text-white leading-[1.1] mb-[30px] break-words flex">
+              {/* Title with strong Drop Shadow */}
+              <div className="mb-8 flex wrap-break-word text-[76px] font-black leading-[1.1] text-white drop-shadow-[0_12px_12px_rgba(0,0,0,0.6)]">
                 {title}
               </div>
 
-              <div className="text-[32px] font-normal text-[#94a3b8] leading-[1.4] flex">
+              {/* Subtitle with subtle Drop Shadow */}
+              <div className="flex -rotate-4 underline decoration-wavy underline-offset-8 text-[30px] font-medium leading-relaxed text-slate-300 opacity-90 drop-shadow-lg">
                 {subtitle}
+              </div>
+
+              <div className="mt-12 flex items-center gap-4">
+                <div className="flex rounded-2xl border border-indigo-500/30 bg-indigo-500/20 px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-indigo-100 shadow-inner">
+                  Cloudflare
+                </div>
+                <div className="flex rounded-2xl border border-purple-500/30 bg-purple-500/20 px-6 py-2.5 text-sm font-bold uppercase tracking-widest text-purple-100 shadow-inner">
+                  OGP Generator
+                </div>
               </div>
             </div>
 
-            <div className="flex w-[35%] relative justify-center items-center">
-              <div className="absolute w-[420px] h-[420px] rounded-[40px] border border-white/10 bg-white/3 rotate-[-3deg] flex" />
-              <div className="w-[400px] h-[400px] rounded-[32px] overflow-hidden border-4 border-white/10 flex">
+            {/* Right Image Container with Drop Shadow and Layering */}
+            <div className="relative flex w-[33%] items-center justify-center">
+              {/* Outer Glow Ring */}
+              <div className="absolute flex size-115 rounded-full bg-indigo-500/10 blur-[50px]" />
+
+              {/* Image Frame with multiple shadows */}
+              <div className="flex size-105 rotate-3 overflow-hidden rounded-[56px] border-4 border-white/20 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.9)] drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]">
                 <img
-                  className="w-full h-full object-cover"
+                  className="size-full scale-110 object-cover"
                   src={image}
                   alt=""
                 />
               </div>
+
+              {/* Decorative Floating Icon with Glass effect */}
+              <div className="absolute -bottom-7.5 -right-2.5 flex size-28 -rotate-12 items-center justify-center rounded-4xl shadow-2xl backdrop-blur-md">
+                <div className="flex text-5xl font-bold text-white drop-shadow-lg">
+                  ⭐️
+                </div>
+              </div>
             </div>
           </div>
-          <div className="absolute bottom-10 left-[60px] flex items-center z-20">
-            <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-[10px] text-lg text-[#e2e8f0] font-medium flex">
+
+          {/* Bottom Branding with Backdrop Filter */}
+          <div className="absolute bottom-10 left-21.25 z-20 flex items-center">
+            <div className="flex rounded-2xl border border-white/10 bg-slate-900/40 px-8 py-3 text-xl font-bold text-slate-100 shadow-xl backdrop-blur-xl">
+              <span className="mr-2 flex text-indigo-400">@</span>
               satoru-cloudflare-ogp
             </div>
           </div>
@@ -81,6 +117,7 @@ const fetch = async (
       </body>
     </html>,
   );
+  console.log(html, await createCSS(html));
   // Render to PNG with automatic font resolution
   const png = await render({
     value: html,

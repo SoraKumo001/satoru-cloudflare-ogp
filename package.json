@@ -7,7 +7,8 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "deploy-test": "wrangler deploy --dry-run",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint src"
   },
   "dependencies": {
     "@unocss/preset-wind4": "66.6.6",
@@ -17,9 +18,14 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260310.1",
+    "@eslint/js": "10.0.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "eslint": "10.0.3",
+    "eslint-plugin-tailwindcss": "3.18.2",
+    "tailwindcss": "4.2.1",
     "typescript": "^5.9.3",
+    "typescript-eslint": "8.57.0",
     "wrangler": "^4.71.0"
   },
   "main": "index.js",
